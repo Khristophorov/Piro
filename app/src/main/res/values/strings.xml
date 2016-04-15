@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">HolographicalPiramid</string>
+
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="imageAltText">Image</string>
+    <string name="cross">cross</string>
+    <string name="empty">EmptyCell</string>
+    <string name="import_string">IMPORT</string>
+    <string name="settings">Settings</string>
+    <string name="addNewImage">Add New Image</string>
+    <string name="addPlaylist">Add new playlist</string>
+    <string name="addFromGallery">Add from Gallery</string>
+</resources>
