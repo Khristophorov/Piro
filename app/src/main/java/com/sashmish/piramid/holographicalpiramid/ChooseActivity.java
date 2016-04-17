@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +30,7 @@ import java.util.Objects;
 public class ChooseActivity extends AppCompatActivity {
 
     private static final int COLUMNS = 3;
+    private static final String DELETE_STRING = "Delete";
 
     private int columnNum = 0;
     private int rowNum = 0;
@@ -39,6 +41,10 @@ public class ChooseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        initGrid();
+    }
+
+    private void initGrid() {
         setContentView(R.layout.activity_choose);
         directory = getExternalFilesDir(null);
         makeFilesList();
@@ -58,6 +64,10 @@ public class ChooseActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
+        clearGrid();
+    }
+
+    private void clearGrid() {
         ScrollView scrollVeiew = (ScrollView) findViewById(R.id.scrollView);
         Objects.requireNonNull(scrollVeiew);
         scrollVeiew.removeAllViews();
@@ -152,6 +162,7 @@ public class ChooseActivity extends AppCompatActivity {
     private ImageView createImageView(String url) {
         ImageView imageView = new ImageView(this);
         int size = ActivityUtils.calculateImageSize(getWindowManager(), COLUMNS);
+        int viewId = Math.abs(url.hashCode());
         Ion.with(imageView).animateGif(AnimateGifMode.NO_ANIMATE).load(url);
         GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
         layoutParams.height = size;
@@ -159,9 +170,11 @@ public class ChooseActivity extends AppCompatActivity {
         layoutParams.columnSpec = GridLayout.spec(getNextColumn());
         layoutParams.rowSpec = GridLayout.spec(rowNum);
         imageView.setContentDescription(url);
+        imageView.setId(viewId);
         imageView.setLayoutParams(layoutParams);
         imageView.setClickable(true);
         imageView.setOnClickListener(imageListener);
+        registerForContextMenu(imageView);
         return imageView;
     }
 
@@ -182,5 +195,34 @@ public class ChooseActivity extends AppCompatActivity {
             String url = data.getDataString();
             inputDialog.setText(url);
         }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
+        int viewId = view.getId();
+        menu.add(0, viewId, 0, DELETE_STRING);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        String title = item.getTitle().toString();
+        int viewId = item.getItemId();
+        View view = findViewById(viewId);
+        switch (title) {
+            case DELETE_STRING:
+                deleteView(view);
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    private void refreshGrid() {
+        clearGrid();
+        initGrid();
+    }
+
+    private void deleteView(View view) {
+        CharSequence url = view.getContentDescription();
+        ActivityUtils.removeUrlFromFilesList(directory, url);
+        refreshGrid();
     }
 }

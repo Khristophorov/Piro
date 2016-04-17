@@ -55,4 +55,15 @@ public class ActivityUtils {
             throw new RuntimeException("Error writing url to file", e);
         }
     }
+
+    public static void removeUrlFromFilesList(File directory, CharSequence url) {
+        File filesList = getFilesList(directory);
+        try {
+            String filesListContent = Files.toString(filesList, Charset.defaultCharset());
+            String clearedFilesListContent = filesListContent.replaceAll(url + "\n*", "");
+            Files.write(clearedFilesListContent, filesList, Charset.defaultCharset());
+        } catch (IOException e) {
+            throw new RuntimeException("Error deleting url " + url + " from files list", e);
+        }
+    }
 }
