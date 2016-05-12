@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:columnCount="1"
+    android:rowCount="2"
+    tools:context="com.sashmish.piramid.holographicalpiramid.PlaylistActivity">
+
+    <LinearLayout
+        android:id="@+id/playListLinearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_row="0"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/addImages"
+            android:layout_width="wrap_content"
+            android:layout_height="58dp"
+            android:clickable="true"
+            android:text="@string/addImages" />
+
+        <LinearLayout
+            android:id="@+id/durationLayout"
+            android:layout_width="83dp"
+            android:background="#FFFFFF"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/durationLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/duration" />
+
+            <EditText
+                android:id="@+id/durationInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned"
+                android:text="@string/five" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/slideshow"
+            android:layout_width="wrap_content"
+            android:layout_height="58dp"
+            android:text="@string/slideshow" />
+    </LinearLayout>
+
+    <GridLayout
+        android:id="@+id/chosenViews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_row="1" />
+</GridLayout>
